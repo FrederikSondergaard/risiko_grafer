@@ -146,7 +146,7 @@ fig1.tight_layout()
 x = np.arange(len(vis_labels))
 fig2, ax2 = plt.subplots(figsize=(10, 7))
 ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
-        width=0.4, color="#d7c39d8b")
+        width=0.4, color="#d7c39d78")
 
 for i in range(len(x)):
     ax2.scatter(x[i], exp_afkast, color="white", edgecolors="gray",
@@ -165,7 +165,7 @@ ax2.set_ylabel("Forventet afkast p.a. i %")
 ax2.set_ylim(min(lower_afk) * 100 - 10, max(upper_afk) * 100 + 10)
 ax2.axhline(0, color="gray", linewidth=0.5)
 ax2.legend(handles=[
-    Patch(facecolor="#d7c39d8b",
+    Patch(facecolor="#d7c39d78",
           label="Forventet udfaldsrum p.a. (95% konfidensinterval)"),
     Line2D([0], [0], marker="D", color="white",
            markerfacecolor="white", markeredgecolor="gray",
