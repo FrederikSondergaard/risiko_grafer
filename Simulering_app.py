@@ -76,7 +76,7 @@ risiko_input = st.text_input("Forventet standardafvigelse p.a.", value="15,00 %"
 risiko       = float(re.sub(r"[^0-9,\.]", "", risiko_input).replace(",", ".")) / 100
 
 # ── simulering ──────────────────────────────────────────
-n_sim  = 5000
+n_sim  = 100000
 år     = 10
 uger   = 52
 period = år * uger
@@ -132,7 +132,7 @@ tabel = pd.DataFrame(
           f"{p2_5[idx]:,.0f} kr.",
           f"{p97_5[idx]:,.0f} kr."]
      for år, idx in zip(år_labels, vis_index)},
-    index=["Forventet (gns.)", "Nedre 2,5 %", "Øvre 97,5 %"]
+    index=["Forventet afkast (gns.)", "Nedre grænse (2,5%)", "Øvre grænse (97,5%)"]
 )
 axs1[1].axis("off")
 tab1 = axs1[1].table(cellText=tabel.values, rowLabels=tabel.index,
@@ -146,7 +146,7 @@ fig1.tight_layout()
 x = np.arange(len(vis_labels))
 fig2, ax2 = plt.subplots(figsize=(10, 7))
 ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
-        width=0.4, color="#cfc2a9")
+        width=0.4, color="#d7c39d8b")
 
 for i in range(len(x)):
     ax2.scatter(x[i], exp_afkast, color="white", edgecolors="gray",
@@ -165,7 +165,7 @@ ax2.set_ylabel("Forventet afkast p.a. i %")
 ax2.set_ylim(min(lower_afk) * 100 - 10, max(upper_afk) * 100 + 10)
 ax2.axhline(0, color="gray", linewidth=0.5)
 ax2.legend(handles=[
-    Patch(facecolor="#cfc2a9",
+    Patch(facecolor="#d7c39d8b",
           label="Forventet udfaldsrum p.a. (95% konfidensinterval)"),
     Line2D([0], [0], marker="D", color="white",
            markerfacecolor="white", markeredgecolor="gray",
