@@ -31,6 +31,10 @@ EXPL2 = ("Forklaring: Grafen viser det årlige forventede afkast og et konfidens
          "95 procent. Afkastforventningerne er baseret på estimater fra Rådet for "
          "Afkastforventninger.")
 
+print("Header exists:", os.path.exists(HEADER_FILE))
+print("Footer exists:", os.path.exists(FOOTER_FILE))
+print("Current working dir:", os.getcwd())
+
 # ── hjælpefunktioner til PDF ────────────────────────────
 def draw_header(c, pw, ph):
     if os.path.exists(HEADER_FILE):
