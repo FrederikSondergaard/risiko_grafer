@@ -3,3 +3,6 @@ numpy
 matplotlib
 pandas
 reportlab
+kaleido
+reportlab
+plotly 

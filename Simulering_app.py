@@ -41,7 +41,7 @@ def draw_header(c, pw, ph):
         img = ImageReader(HEADER_FILE)
         iw, ih = img.getSize()
         scale = HEADER_H / ih
-        c.drawImage(img, (pw - iw * scale) / 2, ph - HEADER_H,
+        c.drawImage(img, (pw - iw * scale) / 2, ph - HEADER_H + 5,
                     width=iw * scale, height=HEADER_H,
                     preserveAspectRatio=True, anchor="n")
     else:
@@ -181,12 +181,12 @@ if st.button("Download PDF"):
     PW, PH = landscape(A4)
     usable_w = PW - 2 * MARGIN
     usable_h = PH - HEADER_H - FOOTER_H - 3 * MARGIN
-    g_ratio  = 0.75                                      # 75 % til graf
+    g_ratio  = 0.80
 
     # side 1
     draw_header(c, PW, PH)
     buf1 = BytesIO()
-    fig1.savefig(buf1, format="jpg", dpi=300, bbox_inches="tight")
+    fig1.savefig(buf1, format="png", dpi=300, bbox_inches="tight")
     buf1.seek(0)
     g1 = ImageReader(buf1)
     gw, gh = g1.getSize()
@@ -202,7 +202,7 @@ if st.button("Download PDF"):
     # side 2
     draw_header(c, PW, PH)
     buf2 = BytesIO()
-    fig2.savefig(buf2, format="jpg", dpi=300, bbox_inches="tight")
+    fig2.savefig(buf2, format="png", dpi=300, bbox_inches="tight")
     buf2.seek(0)
     g2 = ImageReader(buf2)
     gw2, gh2 = g2.getSize()
@@ -219,7 +219,7 @@ if st.button("Download PDF"):
     buffer.seek(0)
     st.download_button("Klik her for at hente PDF",
                        data=buffer.getvalue(),
-                       file_name="Simulering.pdf",
+                       file_name="Risiko-Grafer.pdf",
                        mime="application/pdf")
     plt.close(fig1)
     plt.close(fig2)
