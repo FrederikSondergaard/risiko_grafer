@@ -12,6 +12,7 @@ from reportlab.lib.utils import ImageReader
 import textwrap
 import re
 import os
+import textwrap
 
 st.set_page_config(layout="wide")
 
@@ -100,7 +101,7 @@ mean = np.mean(paths, axis=1)
 
 årstal      = np.arange(1, 11)
 u_index     = np.array([uger * a - 1 for a in årstal])
-vis_labels  = [1, 3, 5, 10]
+vis_labels  = [1, 3, 5, 8, 10]
 vis_index   = [uger * a - 1 for a in vis_labels]
 lower_afk   = (p2_5[vis_index] / beløb) ** (1 / np.array(vis_labels)) - 1
 upper_afk   = (p97_5[vis_index] / beløb) ** (1 / np.array(vis_labels)) - 1
@@ -151,6 +152,7 @@ for i in range(len(x)):
 ax2.set_xticks(x)
 ax2.set_xticklabels([f"{a} år" for a in vis_labels])
 ax2.set_title("UDFALDSRUM FOR AFKAST OVER TID", pad=30, fontsize=16)
+ax2.set_xlabel("Tidshorisont", labelpad=15)
 ax2.set_ylabel("Forventet afkast p.a. i %")
 ax2.set_ylim(min(lower_afk) * 100 - 10, max(upper_afk) * 100 + 10)
 ax2.axhline(0, color="gray", linewidth=0.5)
@@ -164,8 +166,16 @@ ax2.grid(alpha=0.2)
 ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x:.0f}%'))
 
 # Tilføj forklaringstekst til fig1 og fig2 før de gemmes til PNG
-fig1.text(0.5, -0.05, EXPL1, ha='center', va='bottom', fontsize=12, wrap=True)
-fig2.text(0.5, -0.08, EXPL2, ha='center', va='bottom', fontsize=12, wrap=True)
+fig1.text(
+    0.5, -0.08,
+    textwrap.fill(EXPL1, 120),  # 80 kan justeres for ønsket bredde
+    ha='center', va='bottom', fontsize=10, wrap=True
+)
+fig2.text(
+    0.5, -0.08,
+    textwrap.fill(EXPL2, 120),
+    ha='center', va='bottom', fontsize=10, wrap=True
+)
 
 def generate_pdf_fixed_size():
     buffer = BytesIO()
@@ -208,8 +218,8 @@ def generate_pdf_fixed_size():
     img2_buf.seek(0)
     img2 = ImageReader(img2_buf)
 
-    fixed_w2 = 450  # Mindre bredde til graf 2 (zoomet ud)
-    fixed_h2 = 350  # Mindre højde til graf 2 (zoomet ud)
+    fixed_w2 = 600  # Højde
+    fixed_h2 = 500  # Bredde
     iw2, ih2 = img2.getSize()
     scale2 = min(fixed_w2 / iw2, fixed_h2 / ih2)
     draw_w2 = iw2 * scale2
