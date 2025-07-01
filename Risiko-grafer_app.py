@@ -204,8 +204,8 @@ def generate_pdf_fixed_size():
     img1_buf.seek(0)
     img1 = ImageReader(img1_buf)
 
-    fixed_w1 = 600  # Standardstørrelse til graf 1
-    fixed_h1 = 500
+    fixed_w1 = 600 # Højde
+    fixed_h1 = 600 # Bredde
     iw1, ih1 = img1.getSize()
     scale1 = min(fixed_w1 / iw1, fixed_h1 / ih1)
     draw_w1 = iw1 * scale1
@@ -232,7 +232,7 @@ def generate_pdf_fixed_size():
     img2 = ImageReader(img2_buf)
 
     fixed_w2 = 600  # Højde
-    fixed_h2 = 500  # Bredde
+    fixed_h2 = 700  # Bredde
     iw2, ih2 = img2.getSize()
     scale2 = min(fixed_w2 / iw2, fixed_h2 / ih2)
     draw_w2 = iw2 * scale2
