@@ -282,10 +282,5 @@ st.download_button(
 
 # ── visning i dashboardet ───────────────────────────────
 st.pyplot(fig1)
-st.write("")  # Én tom linje
-st.write("")  # Endnu en tom linje (kan tilføjes flere gange for mere luft)
 st.pyplot(fig2)
-
-# Alternativt, brug en horisontal linje:
-# st.divider()
 
