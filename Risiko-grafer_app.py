@@ -17,7 +17,7 @@ import os
 import textwrap
 import matplotlib.pyplot as plt
 
-plt.rcParams['font.family'] = 'Source Sans Pro'
+plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.rcParams['font.weight'] = 'light'
 
 st.set_page_config(layout="wide")
@@ -29,7 +29,7 @@ HEADER_H    = 50                    # højde i points
 FOOTER_H    = 50
 MARGIN      = 10
 HEADER_TEXT = ""
-HEADER_FONT = ("Helvetica-Bold", 16)
+HEADER_FONT = ("Helvetica", 16)
 
 EXPL1 = ("Forklaring: Grafen viser en simulering af porteføljeudvikling baseret på "
          "stokastiske ugentlige afkast over ti år. Afkastforventningerne er baseret på de "
@@ -121,6 +121,7 @@ ax1.fill_between(range(period), p2_5, p97_5,
 ax1.plot(mean, label="Gennemsnit",
          color="#cfc2a9", linestyle="--", linewidth=2)
 
+# Tilføj datamærker (små prikker) ved hvert dataetiket
 for år_lbl, idx in zip(vis_labels, vis_index):
     ax1.annotate(f"{mean[idx]:,.0f} kr.", (idx, mean[idx]),
                  textcoords="offset points", xytext=(0, 12), ha="center")
@@ -128,6 +129,12 @@ for år_lbl, idx in zip(vis_labels, vis_index):
                  textcoords="offset points", xytext=(0, 12), ha="center")
     ax1.annotate(f"{p2_5[idx]:,.0f} kr.", (idx, p2_5[idx]),
                  textcoords="offset points", xytext=(0, -20), ha="center")
+    # Prik for mean
+    ax1.scatter(idx, mean[idx], color="white", edgecolor="gray", zorder=5, s=40)
+    # Prik for p97_5
+    ax1.scatter(idx, p97_5[idx], color="white", edgecolor="gray", zorder=5, s=40)
+    # Prik for p2_5
+    ax1.scatter(idx, p2_5[idx], color="white", edgecolor="gray", zorder=5, s=40)
 
 ax1.set_xticks(u_index)
 ax1.set_xticklabels([f"{a} år" for a in årstal])
@@ -137,11 +144,11 @@ ax1.set_ylabel(f"Porteføljeværdi (start = {beløb:,.0f} kr.)", labelpad=15)
 ax1.yaxis.set_major_formatter(FuncFormatter(tusind_millioner_formatter))
 ax1.set_ylim(min(p2_5) - 0.5 * beløb, max(p97_5) + 0.5 * beløb)
 ax1.legend(loc="upper left")
-ax1.grid(alpha=0.3)
+ax1.grid(False)  # Fjern gridlines
 
 # ── graf 2 ──────────────────────────────────────────────
 x = np.arange(len(vis_labels))
-fig2, ax2 = plt.subplots(figsize=(12, 7), constrained_layout=True)  # Tilføjet constrained_layout=True
+fig2, ax2 = plt.subplots(figsize=(12, 7), constrained_layout=True)
 ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
         width=0.4, color="#d7c39d78")
 
@@ -168,7 +175,7 @@ ax2.legend(handles=[
     Line2D([0], [0], marker="D", color="white",
            markeredgecolor="gray", label="Forventet afkast p.a.", linestyle="None")
 ], loc="upper right")
-ax2.grid(alpha=0.2)
+ax2.grid(False)  # Fjern gridlines
 ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x:.0f}%'))
 
 # Tilføj forklaringstekst til fig1 og fig2 før de gemmes til PNG
