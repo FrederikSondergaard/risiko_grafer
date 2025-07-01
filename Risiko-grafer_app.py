@@ -158,7 +158,7 @@ ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=15, fontsize=20, fontweight='bold
 ax1.set_xlabel("Tidshorisont", labelpad=15)
 ax1.set_ylabel(f"Porteføljeværdi (start = {beløb:,.0f} kr.)", labelpad=15)
 ax1.yaxis.set_major_formatter(FuncFormatter(tusind_millioner_formatter))
-ax1.set_ylim(min(p2_5) - 0.2 * beløb, max(p97_5) + 0.5 * beløb)
+ax1.set_ylim(min(p2_5) - 0.5 * beløb, max(p97_5) + 0.5 * beløb)
 ax1.legend(loc="upper left")
 ax1.grid(False)  # Fjern gridlines
 
