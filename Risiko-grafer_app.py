@@ -123,7 +123,7 @@ paths  = beløb * paths / paths[0]
 p2_5, p97_5 = np.percentile(paths, [2.5, 97.5], axis=1)
 mean = np.mean(paths, axis=1)
 
-årstal      = np.arange(1, 11)
+årstal      = np.arange(1, 12)
 u_index     = np.array([uger * a - 1 for a in årstal])
 vis_labels  = [1, 3, 5, 8, 10]
 vis_index   = [uger * a - 1 for a in vis_labels]
@@ -282,5 +282,9 @@ st.download_button(
 
 # ── visning i dashboardet ───────────────────────────────
 st.pyplot(fig1)
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
 st.pyplot(fig2)
 
