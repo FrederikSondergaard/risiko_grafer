@@ -26,9 +26,12 @@ st.set_page_config(layout="wide")
 HEADER_FILE = "assets/Header.png"          # brug dit eget logo
 FOOTER_FILE = "assets/Footer.png"          # brug din egen footer
 HEADER_H    = 50                    # højde i points
+HEADER_W    = 100                   # bredde i points
+HEADER_MARGIN = 10              # margen i points
+
 FOOTER_H    = 30
-FOOTER_W    = 60
-MARGIN      = 20
+FOOTER_W    = 100
+FOOTER_MARGIN = 20
 HEADER_TEXT = ""
 HEADER_FONT = ("Helvetica", 16)
 
@@ -49,8 +52,8 @@ def draw_header(c, pw, ph):
         # Placer billedet i øverste højre hjørne
         c.drawImage(
             img,
-            pw - iw * scale - MARGIN,  # Højre margen
-            ph - HEADER_H - 10,        # Øverst (justér evt. -10)
+            pw - iw * scale - HEADER_MARGIN,  # Brug HEADER_MARGIN for højre margen
+            ph - HEADER_H - HEADER_MARGIN,    # Brug HEADER_MARGIN for topmargen
             width=iw * scale,
             height=HEADER_H,
             preserveAspectRatio=True,
@@ -58,16 +61,26 @@ def draw_header(c, pw, ph):
         )
     else:
         c.setFont(*HEADER_FONT)
-        c.drawCentredString(pw / 2, ph - HEADER_H - 10 + (HEADER_H - HEADER_FONT[1]) / 2, HEADER_TEXT)
+        c.drawCentredString(
+            pw / 2,
+            ph - HEADER_H - HEADER_MARGIN + (HEADER_H - HEADER_FONT[1]) / 2,
+            HEADER_TEXT
+        )
 
 def draw_footer(c, pw):
     if os.path.exists(FOOTER_FILE):
         img = ImageReader(FOOTER_FILE)
         iw, ih = img.getSize()
         scale = FOOTER_H / ih
-        c.drawImage(img, (pw - iw * scale) / 2, 0,
-                    width=iw * scale, height=FOOTER_H,
-                    preserveAspectRatio=True, anchor="s")
+        c.drawImage(
+            img,
+            (pw - iw * scale) / 2,  # Centreret
+            FOOTER_MARGIN,          # Brug FOOTER_MARGIN for bundmargen
+            width=iw * scale,
+            height=FOOTER_H,
+            preserveAspectRatio=True,
+            anchor="s"
+        )
 
 def draw_expl_center(c, text, pw, y_start, max_w):
     c.setFont("Times New Roman", 10)
