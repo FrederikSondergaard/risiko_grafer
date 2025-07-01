@@ -140,7 +140,7 @@ ax1.plot(mean, label="Forventet Afkast (Gennemsnit)",
 # Tilføj datamærker (små prikker) ved hvert dataetiket
 for år_lbl, idx in zip(vis_labels, vis_index):
     ax1.annotate(f"{mean[idx]:,.0f}".replace(',', '.') + " kr.", (idx, mean[idx]),
-                 textcoords="offset points", xytext=(0, 10), ha="center")
+                 textcoords="offset points", xytext=(0, 8), ha="center")
     ax1.annotate(f"{p97_5[idx]:,.0f}".replace(',', '.') + " kr.", (idx, p97_5[idx]),
                  textcoords="offset points", xytext=(0, 10), ha="center")
     ax1.annotate(f"{p2_5[idx]:,.0f}".replace(',', '.') + " kr.", (idx, p2_5[idx]),
