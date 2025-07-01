@@ -182,7 +182,7 @@ for i in range(len(x)):
 
 ax2.set_xticks(x)
 ax2.set_xticklabels([f"{a} år" for a in vis_labels])
-ax2.set_title("UDFALDSRUM FOR AFKAST OVER TID", pad=30, fontsize=16, fontweight='bold')
+ax2.set_title("UDFALDSRUM FOR AFKAST OVER TID", pad=15, fontsize=20, fontweight='bold')
 ax2.set_xlabel("Tidshorisont", labelpad=15)
 ax2.set_ylabel("Forventet afkast p.a. i %")
 ax2.set_ylim(min(lower_afk) * 100 - 10, max(upper_afk) * 100 + 10)
