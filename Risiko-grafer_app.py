@@ -130,11 +130,11 @@ for år_lbl, idx in zip(vis_labels, vis_index):
     ax1.annotate(f"{p2_5[idx]:,.0f} kr.", (idx, p2_5[idx]),
                  textcoords="offset points", xytext=(0, -20), ha="center")
     # Prik for mean
-    ax1.scatter(idx, mean[idx], color="white", edgecolor="gray", zorder=5, s=40)
+    ax1.scatter(idx, mean[idx], marker="D", color="white", edgecolor="gray", zorder=5, s=40)
     # Prik for p97_5
-    ax1.scatter(idx, p97_5[idx], color="white", edgecolor="gray", zorder=5, s=40)
+    ax1.scatter(idx, p97_5[idx], marker="D", color="white", edgecolor="gray", zorder=5, s=40)
     # Prik for p2_5
-    ax1.scatter(idx, p2_5[idx], color="white", edgecolor="gray", zorder=5, s=40)
+    ax1.scatter(idx, p2_5[idx], marker="D", color="white", edgecolor="gray", zorder=5, s=40)
 
 ax1.set_xticks(u_index)
 ax1.set_xticklabels([f"{a} år" for a in årstal])
@@ -154,7 +154,7 @@ ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
 
 for i in range(len(x)):
     ax2.scatter(x[i], exp_afkast, color="white", edgecolors="gray",
-                marker="D", s=60, zorder=3)
+                marker="D", s=40, zorder=5)
     ax2.text(x[i], exp_afkast + 1.8, f"{exp_afkast:.2f}%",
              ha="center", va="bottom", fontsize=9)
     ax2.text(x[i], upper_afk[i] * 100 + 1.5, f"{upper_afk[i] * 100:.2f}%",
