@@ -9,10 +9,16 @@ from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 import textwrap
 import re
 import os
 import textwrap
+import matplotlib.pyplot as plt
+
+plt.rcParams['font.family'] = 'Source Sans Pro'
+plt.rcParams['font.weight'] = 'light'
 
 st.set_page_config(layout="wide")
 
@@ -59,10 +65,10 @@ def draw_footer(c, pw):
                     preserveAspectRatio=True, anchor="s")
 
 def draw_expl_center(c, text, pw, y_start, max_w):
-    c.setFont("Helvetica", 10)
+    c.setFont("Times New Roman", 10)
     wrap = int(max_w // 5.2)
     for i, line in enumerate(textwrap.fill(text, wrap).split("\n")):
-        x = (pw - c.stringWidth(line, "Helvetica", 10)) / 2
+        x = (pw - c.stringWidth(line, "Times New Roman", 10)) / 2
         c.drawString(x, y_start - i * 13, line)
 
 def tusind_millioner_formatter(x, pos):
