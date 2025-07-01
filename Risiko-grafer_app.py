@@ -172,13 +172,19 @@ ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
         width=0.4, color="#d7c39d78")
 
 for i in range(len(x)):
+    # Forventet afkast
+    exp_txt = f"{exp_afkast:.2f}".replace('.', ',') + '%'
     ax2.scatter(x[i], exp_afkast, color="white", edgecolors="gray",
                 marker="D", s=40, zorder=5)
-    ax2.text(x[i], exp_afkast + 1.8, f"{exp_afkast:.2f}%",
+    ax2.text(x[i], exp_afkast + 1.8, exp_txt,
              ha="center", va="bottom", fontsize=9)
-    ax2.text(x[i], upper_afk[i] * 100 + 1.5, f"{upper_afk[i] * 100:.2f}%",
+    # Øvre grænse
+    upper_txt = f"{upper_afk[i] * 100:.2f}".replace('.', ',') + '%'
+    ax2.text(x[i], upper_afk[i] * 100 + 1.5, upper_txt,
              ha="center", va="bottom", fontsize=9)
-    ax2.text(x[i], lower_afk[i] * 100 - 2, f"{lower_afk[i] * 100:.2f}%",
+    # Nedre grænse
+    lower_txt = f"{lower_afk[i] * 100:.2f}".replace('.', ',') + '%'
+    ax2.text(x[i], lower_afk[i] * 100 - 2, lower_txt,
              ha="center", va="top", fontsize=9)
 
 ax2.set_xticks(x)
