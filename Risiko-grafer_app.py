@@ -17,9 +17,6 @@ import os
 import textwrap
 import matplotlib.pyplot as plt
 
-plt.rcParams['font.family'] = 'DejaVu Sans'
-plt.rcParams['font.weight'] = 'light'
-
 st.set_page_config(layout="wide")
 
 # ── faste filer og layout-mål ───────────────────────────
