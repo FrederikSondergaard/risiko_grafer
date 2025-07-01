@@ -199,13 +199,15 @@ ax2.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{x:.0f}%'))
 # Tilføj forklaringstekst til fig1 og fig2 før de gemmes til PNG
 fig1.text(
     0.5, -0.08,
-    textwrap.fill(EXPL1, 120),  # 80 kan justeres for ønsket bredde
-    ha='center', va='bottom', fontsize=10, wrap=True
+    textwrap.fill(EXPL1, 120),
+    ha='center', va='bottom', fontsize=10, wrap=True,
+    color='gray', fontstyle='italic'
 )
 fig2.text(
     0.5, -0.08,
     textwrap.fill(EXPL2, 100),
-    ha='center', va='bottom', fontsize=10, wrap=True
+    ha='center', va='bottom', fontsize=10, wrap=True,
+    color='gray', fontstyle='italic'
 )
 
 def generate_pdf_fixed_size():
