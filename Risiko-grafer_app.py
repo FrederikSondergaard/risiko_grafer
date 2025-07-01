@@ -27,7 +27,7 @@ HEADER_FILE = "assets/Header.png"          # brug dit eget logo
 FOOTER_FILE = "assets/Footer.png"          # brug din egen footer
 HEADER_H    = 50                    # højde i points
 HEADER_W    = 100                   # bredde i points
-HEADER_MARGIN = 10              # margen i points
+HEADER_MARGIN = 20              # margen i points
 
 FOOTER_H    = 30
 FOOTER_W    = 100
@@ -135,7 +135,7 @@ exp_afkast  = afkast * 100
 fig1, ax1 = plt.subplots(figsize=(12, 7), constrained_layout=True)
 ax1.fill_between(range(period), p2_5, p97_5,
                  color="#d7c39d78", alpha=0.3,
-                 label="95% konfidensinterval")
+                 label="95% Konfidensinterval")
 ax1.plot(mean, label="Forventet Afkast (Gennemsnit)",
          color="#dfcdabff", linestyle="--", linewidth=2)
 
