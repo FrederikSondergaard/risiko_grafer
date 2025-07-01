@@ -123,8 +123,8 @@ paths  = beløb * paths / paths[0]
 p2_5, p97_5 = np.percentile(paths, [2.5, 97.5], axis=1)
 mean = np.mean(paths, axis=1)
 
-årstal = np.arange(1, 11)  # Only 1 to 10 for labels
-u_index = np.array([uger * a - 1 for a in årstal])  # Positions for labels
+årstal      = np.arange(1, 11)
+u_index     = np.array([uger * a - 1 for a in årstal])
 vis_labels  = [1, 3, 5, 8, 10]
 vis_index   = [uger * a - 1 for a in vis_labels]
 lower_afk   = (p2_5[vis_index] / beløb) ** (1 / np.array(vis_labels)) - 1
@@ -158,10 +158,10 @@ ax1.set_xticks(u_index)
 ax1.set_xticklabels([f"{a} år" for a in årstal])
 ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=20, fontsize=16)
 ax1.set_xlabel("Tidshorisont", labelpad=15)
+ax1.set_xlim(0, uger * 11 - 1)
 ax1.set_ylabel(f"Porteføljeværdi (start = {beløb:,.0f} kr.)", labelpad=15)
 ax1.yaxis.set_major_formatter(FuncFormatter(tusind_millioner_formatter))
 ax1.set_ylim(min(p2_5) - 0.5 * beløb, max(p97_5) + 0.5 * beløb)
-ax1.set_xlim(0, uger * 11 - 1)
 ax1.legend(loc="upper left")
 ax1.grid(False)  # Fjern gridlines
 
