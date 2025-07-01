@@ -251,8 +251,8 @@ def generate_pdf_fixed_size():
     img2_buf.seek(0)
     img2 = ImageReader(img2_buf)
 
-    fixed_w2 = 600  # Højde
-    fixed_h2 = 800  # Bredde
+    fixed_w2 = 1000  # Højde
+    fixed_h2 = 1000  # Bredde
     iw2, ih2 = img2.getSize()
     scale2 = min(fixed_w2 / iw2, fixed_h2 / ih2)
     draw_w2 = iw2 * scale2
