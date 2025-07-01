@@ -90,12 +90,13 @@ def draw_expl_center(c, text, pw, y_start, max_w):
         c.drawString(x, y_start - i * 13, line)
 
 def tusind_millioner_formatter(x, pos):
+    # Brug punktum som tusindtalsseparator og komma til decimaler
     if abs(x) >= 1_000_000:
-        return f'{x/1_000_000:.1f}M'
+        return f'{x/1_000_000:.1f}'.replace('.', ',') + 'M'
     elif abs(x) >= 1_000:
-        return f'{x/1_000:.0f}K'
+        return f'{x/1_000:.0f}'.replace('.', ',') + 'K'
     else:
-        return f'{int(x):,}'
+        return f'{int(x):,}'.replace(',', '.')
 
 # ── brugerinput ─────────────────────────────────────────
 beløb_input  = st.text_input("Investeret beløb", value="1.000.000 kr.")
@@ -141,11 +142,11 @@ ax1.plot(mean, label="Forventet Afkast (Gennemsnit)",
 
 # Tilføj datamærker (små prikker) ved hvert dataetiket
 for år_lbl, idx in zip(vis_labels, vis_index):
-    ax1.annotate(f"{mean[idx]:,.0f} kr.", (idx, mean[idx]),
+    ax1.annotate(f"{mean[idx]:,.0f}".replace(',', '.') + " kr.", (idx, mean[idx]),
                  textcoords="offset points", xytext=(0, 12), ha="center")
-    ax1.annotate(f"{p97_5[idx]:,.0f} kr.", (idx, p97_5[idx]),
+    ax1.annotate(f"{p97_5[idx]:,.0f}".replace(',', '.') + " kr.", (idx, p97_5[idx]),
                  textcoords="offset points", xytext=(0, 12), ha="center")
-    ax1.annotate(f"{p2_5[idx]:,.0f} kr.", (idx, p2_5[idx]),
+    ax1.annotate(f"{p2_5[idx]:,.0f}".replace(',', '.') + " kr.", (idx, p2_5[idx]),
                  textcoords="offset points", xytext=(0, -20), ha="center")
     # Prik for mean
     ax1.scatter(idx, mean[idx], marker="D", color="white", edgecolor="gray", zorder=5, s=40)
