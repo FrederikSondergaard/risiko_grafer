@@ -148,7 +148,7 @@ ax1.grid(False)  # Fjern gridlines
 
 # ── graf 2 ──────────────────────────────────────────────
 x = np.arange(len(vis_labels))
-fig2, ax2 = plt.subplots(figsize=(5, 7), constrained_layout=True)
+fig2, ax2 = plt.subplots(figsize=(12, 7), constrained_layout=True)
 ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100,
         width=0.4, color="#d7c39d78")
 
