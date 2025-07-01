@@ -26,8 +26,9 @@ st.set_page_config(layout="wide")
 HEADER_FILE = "assets/Header.png"          # brug dit eget logo
 FOOTER_FILE = "assets/Footer.png"          # brug din egen footer
 HEADER_H    = 50                    # højde i points
-FOOTER_H    = 50
-MARGIN      = 10
+FOOTER_H    = 30
+FOOTER_W    = 60
+MARGIN      = 20
 HEADER_TEXT = ""
 HEADER_FONT = ("Helvetica", 16)
 
