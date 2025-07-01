@@ -118,9 +118,9 @@ for år_lbl, idx in zip(vis_labels, vis_index):
 
 axs1[0].set_xticks(u_index)
 axs1[0].set_xticklabels([f"{a} år" for a in årstal])
-axs1[0].set_xlim(-52, period - 1)
 axs1[0].set_title("Forventet formueudvikling", pad=20)
 axs1[0].set_xlabel("Tidshorisont", labelpad=15)
+axs1[0].set_xlim(0, uger * 12)
 axs1[0].set_ylabel(f"Porteføljeværdi (start = {beløb:,.0f} kr.)", labelpad=15)
 axs1[0].set_yticklabels([f"{int(lab):,}" for lab in axs1[0].get_yticks()])
 axs1[0].set_ylim(min(p2_5) - 0.5 * beløb, max(p97_5) + 0.5 * beløb)
