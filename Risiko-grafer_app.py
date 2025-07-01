@@ -203,7 +203,7 @@ fig1.text(
     ha='center', va='bottom', fontsize=10, wrap=True
 )
 fig2.text(
-    0.5, -0.08,
+    0.5, -0.06,
     textwrap.fill(EXPL2, 120),
     ha='center', va='bottom', fontsize=10, wrap=True
 )
