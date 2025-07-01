@@ -124,7 +124,7 @@ p2_5, p97_5 = np.percentile(paths, [2.5, 97.5], axis=1)
 mean = np.mean(paths, axis=1)
 
 årstal      = np.arange(1, 11)  # Kun labels for år 1 til 10
-u_index     = np.array([uger -1 * a for a in årstal])  # Bemærk: ingen -1, så ticks rammer starten af hvert år
+u_index     = np.array([uger * a for a in årstal])  # Bemærk: ingen -1, så ticks rammer starten af hvert år
 vis_labels  = [1, 3, 5, 8, 10]
 vis_index   = [uger * a - 1 for a in vis_labels]
 lower_afk   = (p2_5[vis_index] / beløb) ** (1 / np.array(vis_labels)) - 1
