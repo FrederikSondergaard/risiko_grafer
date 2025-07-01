@@ -23,8 +23,8 @@ plt.rcParams['font.weight'] = 'light'
 st.set_page_config(layout="wide")
 
 # ── faste filer og layout-mål ───────────────────────────
-HEADER_FILE = "Header.png"          # brug dit eget logo
-FOOTER_FILE = "Footer.png"          # brug din egen footer
+HEADER_FILE = "assets/Header.png"          # brug dit eget logo
+FOOTER_FILE = "assets/Footer.png"          # brug din egen footer
 HEADER_H    = 50                    # højde i points
 FOOTER_H    = 50
 MARGIN      = 10
@@ -45,15 +45,19 @@ def draw_header(c, pw, ph):
         img = ImageReader(HEADER_FILE)
         iw, ih = img.getSize()
         scale = HEADER_H / ih
-        # Justeret y-koordinat for at undgå overlap (flyttet 10 pt ned)
-        c.drawImage(img, (pw - iw * scale) / 2, ph - HEADER_H - 10,
-                    width=iw * scale, height=HEADER_H,
-                    preserveAspectRatio=True, anchor="n")
+        # Placer billedet i øverste højre hjørne
+        c.drawImage(
+            img,
+            pw - iw * scale - MARGIN,  # Højre margen
+            ph - HEADER_H - 10,        # Øverst (justér evt. -10)
+            width=iw * scale,
+            height=HEADER_H,
+            preserveAspectRatio=True,
+            anchor="n"
+        )
     else:
         c.setFont(*HEADER_FONT)
-        # Samme justering her
-        c.drawCentredString(pw / 2, ph - HEADER_H - 10 + (HEADER_H - HEADER_FONT[1]) / 2,
-                            HEADER_TEXT)
+        c.drawCentredString(pw / 2, ph - HEADER_H - 10 + (HEADER_H - HEADER_FONT[1]) / 2, HEADER_TEXT)
 
 def draw_footer(c, pw):
     if os.path.exists(FOOTER_FILE):
@@ -118,7 +122,7 @@ fig1, ax1 = plt.subplots(figsize=(12, 7), constrained_layout=True)
 ax1.fill_between(range(period), p2_5, p97_5,
                  color="#d7c39d78", alpha=0.3,
                  label="95% konfidensinterval")
-ax1.plot(mean, label="Gennemsnit",
+ax1.plot(mean, label="Forventet Afkast (Gennemsnit)",
          color="#dfcdabff", linestyle="--", linewidth=2)
 
 # Tilføj datamærker (små prikker) ved hvert dataetiket
