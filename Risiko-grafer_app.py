@@ -116,10 +116,10 @@ exp_afkast  = afkast * 100
 # ── graf 1 ──────────────────────────────────────────────
 fig1, ax1 = plt.subplots(figsize=(12, 7), constrained_layout=True)
 ax1.fill_between(range(period), p2_5, p97_5,
-                 color="#cfc2a9", alpha=0.3,
+                 color="#d7c39d78", alpha=0.3,
                  label="95% konfidensinterval")
 ax1.plot(mean, label="Gennemsnit",
-         color="#cfc2a9", linestyle="--", linewidth=2)
+         color="#d7c39d78", linestyle="--", linewidth=2)
 
 # Tilføj datamærker (små prikker) ved hvert dataetiket
 for år_lbl, idx in zip(vis_labels, vis_index):
