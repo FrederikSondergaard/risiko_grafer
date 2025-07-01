@@ -205,7 +205,7 @@ def generate_pdf_fixed_size():
     img1 = ImageReader(img1_buf)
 
     fixed_w1 = 600 # Højde
-    fixed_h1 = 600 # Bredde
+    fixed_h1 = 800 # Bredde
     iw1, ih1 = img1.getSize()
     scale1 = min(fixed_w1 / iw1, fixed_h1 / ih1)
     draw_w1 = iw1 * scale1
@@ -232,7 +232,7 @@ def generate_pdf_fixed_size():
     img2 = ImageReader(img2_buf)
 
     fixed_w2 = 600  # Højde
-    fixed_h2 = 700  # Bredde
+    fixed_h2 = 800  # Bredde
     iw2, ih2 = img2.getSize()
     scale2 = min(fixed_w2 / iw2, fixed_h2 / ih2)
     draw_w2 = iw2 * scale2
@@ -258,7 +258,7 @@ pdf_data = generate_pdf_fixed_size()
 st.download_button(
     label="Download rapport som PDF",
     data=pdf_data,
-    file_name="simulering_rapport_fixed_size.pdf",
+    file_name="Risiko-Grafer.pdf",
     mime="application/pdf"
 )
 
