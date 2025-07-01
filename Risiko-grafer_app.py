@@ -224,8 +224,8 @@ def generate_pdf_fixed_size():
     img1_buf.seek(0)
     img1 = ImageReader(img1_buf)
 
-    fixed_w1 = 600 # Højde
-    fixed_h1 = 800 # Bredde
+    fixed_w1 = 700 # Højde
+    fixed_h1 = 900 # Bredde
     iw1, ih1 = img1.getSize()
     scale1 = min(fixed_w1 / iw1, fixed_h1 / ih1)
     draw_w1 = iw1 * scale1
