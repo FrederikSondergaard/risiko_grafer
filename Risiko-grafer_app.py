@@ -17,8 +17,6 @@ import os
 import textwrap
 import matplotlib.pyplot as plt
 
-plt.rcParams['font.family'] = 'Arial'
-
 st.set_page_config(layout="wide")
 
 # ── faste filer og layout-mål ───────────────────────────
