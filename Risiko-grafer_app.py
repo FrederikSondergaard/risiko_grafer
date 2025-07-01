@@ -156,7 +156,7 @@ for år_lbl, idx in zip(vis_labels, vis_index):
 
 ax1.set_xticks(u_index)
 ax1.set_xticklabels([f"{a} år" for a in årstal])
-ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=20, fontsize=16, fontweight='bold')
+ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=15, fontsize=20, fontweight='bold')
 ax1.set_xlabel("Tidshorisont", labelpad=15)
 ax1.set_ylabel(f"Porteføljeværdi (start = {beløb:,.0f} kr.)", labelpad=15)
 ax1.yaxis.set_major_formatter(FuncFormatter(tusind_millioner_formatter))
