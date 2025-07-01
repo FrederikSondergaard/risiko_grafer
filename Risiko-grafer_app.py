@@ -30,7 +30,7 @@ FOOTER_H    = 30
 FOOTER_W    = 100
 FOOTER_MARGIN = 20
 HEADER_TEXT = ""
-HEADER_FONT = ("Helvetica", 16)
+HEADER_FONT = ("Times", 16)
 
 EXPL1 = ("Forklaring: Grafen viser en simulering af porteføljeudvikling baseret på "
          "stokastiske ugentlige afkast over ti år. Afkastforventningerne er baseret på de "
