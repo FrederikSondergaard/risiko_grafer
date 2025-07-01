@@ -288,5 +288,9 @@ st.write("")  # Én tom linje
 st.write("")  # Én tom linje
 st.write("")  # Én tom linje
 st.write("")  # Én tom linje
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
+st.write("")  # Én tom linje
 st.pyplot(fig2)
 
