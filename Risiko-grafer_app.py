@@ -123,8 +123,8 @@ paths  = beløb * paths / paths[0]
 p2_5, p97_5 = np.percentile(paths, [2.5, 97.5], axis=1)
 mean = np.mean(paths, axis=1)
 
-årstal      = np.arange(1, 12)
-u_index     = np.array([uger * a - 1 for a in årstal])
+årstal = np.arange(1, 11)  # Only 1 to 10 for labels
+u_index = np.array([uger * a - 1 for a in årstal])  # Positions for labels
 vis_labels  = [1, 3, 5, 8, 10]
 vis_index   = [uger * a - 1 for a in vis_labels]
 lower_afk   = (p2_5[vis_index] / beløb) ** (1 / np.array(vis_labels)) - 1
