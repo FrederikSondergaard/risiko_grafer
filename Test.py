@@ -6,6 +6,7 @@ import base64
 import os
 import matplotlib
 matplotlib.use('Agg')
+matplotlib.rcParams['font.family'] = 'Helvetica'  # eller 'Arial', hvis Helvetica ikke findes
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
@@ -153,6 +154,7 @@ def create_figures(paths, start_beløb=1_000_000):
     ax2.set_xticks(x)
     ax2.set_xticklabels([f"{a} år" for a in år])
     ax2.set_title("FORVENTET ÅRLIGT AFKAST", pad=15, fontsize=20, fontweight='bold')
+    ax2.set_xlabel("Tidshorisont", labelpad=15)
     ax2.set_ylabel("Årligt afkast p.a. (%)", labelpad=15)
 
     # Dynamisk y-akse med 10% luft
@@ -182,11 +184,11 @@ def generate_pdf(fig1, fig2):
     c = canvas.Canvas(buffer, pagesize=landscape(A4))
     pw, ph = landscape(A4)
 
-    img_width = pw * 0.94
-    img_height = ph * 0.6
+    img_width = pw * 0.96
+    img_height = ph * 0.67
     text_fontsize = 8
     text_gap = 15         # Afstand fra graf til EXPL
-    bottom_margin = 60    # Afstand fra bund til graf (øges for mere luft)
+    bottom_margin = 120    # Afstand fra bund til graf (øges for mere luft)
 
     header_img_path = "assets/Header.png"
     footer_img_path = "assets/Footer.png"
@@ -222,11 +224,11 @@ def generate_pdf(fig1, fig2):
         x = (pw - draw_w) / 2
         y = bottom_margin
         c.drawImage(img, x, y, width=draw_w, height=draw_h)
-        return y + draw_h  # Returnér top-positionen for EXPL
+        return y  # Returnér bunden af billedet
 
     # --- Side 1: Graf 1 ---
     draw_header_footer()
-    y_img_top = draw_bottom_image(fig1, bottom_margin=bottom_margin)
+    y_img_bottom = draw_bottom_image(fig1, bottom_margin=bottom_margin)
     c.setFont("Helvetica-Oblique", text_fontsize)
     c.setFillColorRGB(0.5, 0.5, 0.5)
     expl1_lines = [
@@ -234,13 +236,13 @@ def generate_pdf(fig1, fig2):
         "Afkastforventningerne er baseret på de nyeste vurderinger fra Rådet for Afkastforventninger."
     ]
     for i, line in enumerate(expl1_lines):
-        c.drawCentredString(pw/2, y_img_top + text_gap + i*text_fontsize*1.3, line)
+        c.drawCentredString(pw/2, y_img_bottom - text_gap - i*text_fontsize*1.3, line)
 
     c.showPage()
 
     # --- Side 2: Graf 2 ---
     draw_header_footer()
-    y_img_top = draw_bottom_image(fig2, bottom_margin=bottom_margin)
+    y_img_bottom = draw_bottom_image(fig2, bottom_margin=bottom_margin)
     c.setFont("Helvetica-Oblique", text_fontsize)
     c.setFillColorRGB(0.5, 0.5, 0.5)
     expl2_lines = [
@@ -248,7 +250,7 @@ def generate_pdf(fig1, fig2):
         "Afkastforventningerne er baseret på estimater fra Rådet for Afkastforventninger."
     ]
     for i, line in enumerate(expl2_lines):
-        c.drawCentredString(pw/2, y_img_top + text_gap + i*text_fontsize*1.3, line)
+        c.drawCentredString(pw/2, y_img_bottom - text_gap - i*text_fontsize*1.3, line)
 
     c.save()
     buffer.seek(0)
@@ -257,29 +259,34 @@ def generate_pdf(fig1, fig2):
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
-    html.H1("Porteføljesimulering", style={"textAlign": "center"}),
+    html.Img(src="/assets/Header.png", style={"position": "absolute", "top": "20px", "right": "40px", "height": "120px"}),
+    html.H1("Simulering Af Porteføljens Risiko", style={"textAlign": "center", "fontSize": "2.5rem"}),
     html.Br(),
-    html.Label("Startbeløb i kr. (fx 1.000.000 kr.):"), dcc.Input(id="start-beløb", type="text", value="1.000.000"),
+    html.Label("Startbeløb i kr."),
+    dcc.Input(id="start-beløb", type="text", value="1.000.000", style={"marginBottom": "20px", "marginLeft": "15px"}),
     html.Br(),
-    html.Label("Forventet Afkast p.a. (fx 6,00%):"), dcc.Input(id="mu", type="text", value="6,00%"),
+    html.Label("Forventet Afkast p.a."),
+    dcc.Input(id="mu", type="text", value="6,00%", style={"marginBottom": "20px", "marginLeft": "15px"}),
     html.Br(),
-    html.Label("Forventet Standardafvigelse p.a. (fx 18,00%):"), dcc.Input(id="sigma", type="text", value="18,00%"),
+    html.Label("Forventet Standardafvigelse p.a."),
+    dcc.Input(id="sigma", type="text", value="9,00%", style={"marginBottom": "20px", "marginLeft": "15px"}),
     html.Br(),
-    html.Button("Dan Risiko Rapport i PDF", id="pdf-btn"), html.A("Download PDF", id="download-link", href="", target="_blank", download="RisikoRapport.pdf", style={"display": "none", "marginLeft": "20px"}),
+    html.Button("Dan Risiko Rapport i PDF", id="pdf-btn"),
+    html.A("Download PDF", id="download-link", href="", target="_blank", download="RisikoRapport.pdf", style={"display": "none", "marginLeft": "20px"}),
     html.Div(id="error-msg", style={"color": "red", "textAlign": "center"}),
     html.Div([
         html.Div([
-            html.Img(id="fig1", style={"max-width": "90vw", "display": "block", "margin": "0 auto"}),
+            html.Img(id="fig1", style={"width": "1200px", "height": "700px", "display": "block", "margin": "0 auto"}),
             html.Div(id="expl1", style={"textAlign": "center", "color": "gray", "fontStyle": "italic", "whiteSpace": "pre-line", "marginTop": "10px"}),
         ]),
         html.Div(style={"height": "60px"}),  # Ekstra luft mellem graferne
         html.Div([
-            html.Img(id="fig2", style={"max-width": "90vw", "display": "block", "margin": "0 auto"}),
+            html.Img(id="fig2", style={"width": "1200px", "height": "700px", "display": "block", "margin": "0 auto"}),
             html.Div(id="expl2", style={"textAlign": "center", "color": "gray", "fontStyle": "italic", "whiteSpace": "pre-line", "marginTop": "10px"}),
         ]),
     ]),
     html.Br(),
-])
+], style={"fontFamily": "Helvetica, Arial, sans-serif", "position": "relative"})
 
 @app.callback(
     Output("fig1", "src"),
