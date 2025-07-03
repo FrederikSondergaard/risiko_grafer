@@ -6,7 +6,7 @@ import base64
 import os
 import matplotlib
 matplotlib.use('Agg')
-matplotlib.rcParams['font.family'] = 'Helvetica'  # eller 'Arial', hvis Helvetica ikke findes
+matplotlib.rcParams['font.family'] = 'Helvetica-Oblique'  # eller 'Arial', hvis Helvetica ikke findes
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
@@ -75,7 +75,7 @@ def simulate_paths(mu, sigma, weeks=520, simulations=100000):
     paths = np.vstack([np.ones((1, simulations)), paths])
     return paths
 
-def create_figures(paths, start_beløb=1_000_000):
+def create_figures(paths, start_beløb=1_000_000, mu=None):
     weeks = paths.shape[0] - 1
     mean = np.mean(paths, axis=1) * start_beløb
     p2_5 = np.percentile(paths, 2.5, axis=1) * start_beløb
@@ -91,7 +91,7 @@ def create_figures(paths, start_beløb=1_000_000):
     fig1, ax1 = plt.subplots(figsize=(12, 7), constrained_layout=True)
     ax1.fill_between(range(weeks + 1), p2_5, p97_5,
                      color="#d7c39d78", alpha=0.3,
-                     label="95% Konfidensinterval")
+                     label="Forventet Udfaldsrum For Afkastet (95% Konfidensinterval)")
     ax1.plot(mean, label="Forventet Afkast (Gennemsnit)",
              color="#dfcdabff", linestyle="--", linewidth=2)
 
@@ -110,7 +110,7 @@ def create_figures(paths, start_beløb=1_000_000):
     # Aksemærker for alle år 1-10
     ax1.set_xticks(u_index)
     ax1.set_xticklabels([f"{a} år" for a in årstal])
-    ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=15, fontsize=20, fontweight='bold')
+    ax1.set_title("FORVENTET FORMUEUDVIKLING", pad=25, fontsize=20, fontweight='bold')
     ax1.set_xlabel("Tidshorisont", labelpad=15)
     ax1.set_ylabel(f"Porteføljeværdi (start = {start_beløb_str})", labelpad=15)
     ax1.yaxis.set_major_formatter(FuncFormatter(tusind_millioner_formatter))
@@ -137,23 +137,25 @@ def create_figures(paths, start_beløb=1_000_000):
     fig2, ax2 = plt.subplots(figsize=(12, 7), constrained_layout=True)
     ax2.bar(x, (upper_afk - lower_afk) * 100, bottom=lower_afk * 100, width=0.4, color="#d7c39d78")
 
+    mu_pct = mu * 100 if mu is not None else 0
     for i in range(len(x)):
-        # Graf 2: 2 decimaler
-        exp_txt = f"{exp_afkast[i]*100:.2f}".replace('.', ',') + '%'
-        ax2.scatter(x[i], exp_afkast[i]*100, color="white", edgecolors="gray",
+        # Kun denne firkant og tekst bruger mu_pct
+        exp_txt = f"{mu_pct:.2f}".replace('.', ',') + '%'
+        ax2.scatter(x[i], mu_pct, color="white", edgecolors="gray",
                     marker="D", s=40, zorder=5)
-        ax2.text(x[i], exp_afkast[i]*100 + 1.8, exp_txt,
+        ax2.text(x[i], mu_pct + 1.8, exp_txt,
                  ha="center", va="bottom", fontsize=9)
+        # Øvre og nedre grænse uændret
         upper_txt = f"{upper_afk[i]*100:.2f}".replace('.', ',') + '%'
         ax2.text(x[i], upper_afk[i]*100 + 1.5, upper_txt,
                  ha="center", va="bottom", fontsize=9)
         lower_txt = f"{lower_afk[i]*100:.2f}".replace('.', ',') + '%'
         ax2.text(x[i], lower_afk[i]*100 - 2, lower_txt,
                  ha="center", va="top", fontsize=9)
-
+        
     ax2.set_xticks(x)
     ax2.set_xticklabels([f"{a} år" for a in år])
-    ax2.set_title("FORVENTET ÅRLIGT AFKAST", pad=15, fontsize=20, fontweight='bold')
+    ax2.set_title("FORVENTET ÅRLIGT AFKAST", pad=25, fontsize=20, fontweight='bold')
     ax2.set_xlabel("Tidshorisont", labelpad=15)
     ax2.set_ylabel("Årligt afkast p.a. (%)", labelpad=15)
 
@@ -168,6 +170,13 @@ def create_figures(paths, start_beløb=1_000_000):
 
     ax2.grid(False)  # Ingen gridlines
     ax2.axhline(0, color="gray", linewidth=0.8)  # 0-akse
+
+    # Tilføj forklaringsboks øverst til højre i graf 2
+    legend_elements = [
+        Line2D([0], [0], marker='D', color='w', markerfacecolor='white', markeredgecolor='gray', markersize=8, label='Forventet afkast p.a.'),
+        Patch(facecolor='#d7c39d78', edgecolor='#d7c39d78', label='Forventet udfaldsrum for afkastet p.a. (95% konfidensinterval)')
+    ]
+    ax2.legend(handles=legend_elements, loc='upper right', frameon=True, fontsize=10, fancybox=True, framealpha=0.85)
 
     return fig1, fig2
 
@@ -259,7 +268,7 @@ def generate_pdf(fig1, fig2):
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
-    html.Img(src="/assets/Header.png", style={"position": "absolute", "top": "20px", "right": "40px", "height": "120px"}),
+    html.Img(src="/assets/Header.png", style={"position": "absolute", "top": "10px", "right": "40px", "height": "120px"}),
     html.H1("Simulering Af Porteføljens Risiko", style={"textAlign": "center", "fontSize": "2.5rem"}),
     html.Br(),
     html.Label("Startbeløb i kr."),
@@ -299,7 +308,6 @@ app.layout = html.Div([
     Input("sigma", "value"),
 )
 def update_graph(start_str, mu_str, sigma_str):
-    # Parse startbeløb - fjern evt. punktummer og parse til int
     try:
         start_renset = start_str.replace(".", "").replace(" ", "")
         start_beløb = int(start_renset)
@@ -315,7 +323,7 @@ def update_graph(start_str, mu_str, sigma_str):
         return "", "", "", "", "Afkast og volatilitet skal være positive tal."
 
     paths = simulate_paths(mu, sigma)
-    fig1, fig2 = create_figures(paths, start_beløb=start_beløb)
+    fig1, fig2 = create_figures(paths, start_beløb=start_beløb, mu=mu)  # <-- mu sendes videre
 
     src1 = fig_to_uri(fig1)
     src2 = fig_to_uri(fig2)
@@ -338,12 +346,12 @@ def generate_pdf_callback(n_clicks, start_str, mu_str, sigma_str):
     try:
         start_renset = start_str.replace(".", "").replace(" ", "")
         start_beløb = int(start_renset)
-        mu = parse_percent(mu_str)
+        mu = parse_percent(mu_str)  # <-- brug mu_str her
         sigma = parse_percent(sigma_str)
         if mu is None or sigma is None or mu < 0 or sigma <= 0:
             return "", {"display": "none"}
         paths = simulate_paths(mu, sigma)
-        fig1, fig2 = create_figures(paths, start_beløb=start_beløb)
+        fig1, fig2 = create_figures(paths, start_beløb=start_beløb, mu=mu)  # <-- mu sendes videre
         pdf_data = generate_pdf(fig1, fig2)
         pdf_base64 = base64.b64encode(pdf_data).decode("utf-8")
         href = f"data:application/pdf;base64,{pdf_base64}"

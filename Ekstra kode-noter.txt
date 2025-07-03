@@ -1,0 +1,4 @@
+    # Fjern top og højre spines
+    for spine in ["top", "right"]:
+        ax1.spines[spine].set_visible(False)
+        ax2.spines[spine].set_visible(False)
